@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>美团黑客松路线 MVP</title>
+    <link rel="stylesheet" href="./styles.css?v=20260523-22" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="phone">
+        <div class="status-bar"></div>
+
+        <div class="screen screen-04" data-screen="04">
+          <header class="topbar topbar--warm">
+            <button class="icon-btn" id="back04" aria-label="返回">‹</button>
+            <h1>地图入口</h1>
+            <button class="icon-btn" aria-label="更多">⋯</button>
+          </header>
+
+          <section class="entry-map">
+            <div class="entry-pin entry-pin--food"><span>♨</span><strong>火锅</strong></div>
+            <div class="entry-pin entry-pin--play"><span>✦</span><strong>剧本杀</strong></div>
+            <div class="entry-pin entry-pin--coffee"><span>☕</span><strong>咖啡</strong></div>
+            <div class="entry-route"></div>
+          </section>
+
+          <section class="entry-panel">
+            <div class="eyebrow">多人共创路线</div>
+            <h2>一起决定去哪吃、去哪玩</h2>
+            <p>把朋友拉进同一个房间，收集位置和偏好后，AI 会自动串联顺路的店铺。</p>
+            <div class="friend-row">
+              <span>林</span>
+              <span>雯</span>
+              <span>杰</span>
+              <span>+</span>
+            </div>
+            <button class="cta" id="open-room-modal">发起多人共创</button>
+            <button class="link-btn" id="quick-join-room">输入房间码加入</button>
+          </section>
+          <div class="safe-area"></div>
+        </div>
+
+        <div class="screen screen-05 hidden" data-screen="05">
+          <div class="modal-backdrop modal-backdrop--map">
+            <button class="floating-back" id="back05" aria-label="返回">‹</button>
+            <section class="room-modal room-modal--sheet">
+              <div class="modal-handle"></div>
+              <h2>多人共创行程</h2>
+              <p>邀请好友一起填位置和偏好，AI 生成更顺路的美食/游玩路线。</p>
+              <button class="room-action room-action--primary" id="create-room"><span class="plus-dot">+</span>创建新房间</button>
+              <div class="room-code-row">
+                <span>#</span>
+                <input id="room-code-input" inputmode="numeric" maxlength="4" placeholder="输入房间码加入" />
+                <button id="join-room">加入</button>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <div class="screen screen-06 hidden" data-screen="06">
+          <header class="topbar topbar--solid">
+            <button class="icon-btn" id="back06" aria-label="返回">‹</button>
+            <h1>创建行程房间</h1>
+            <button class="text-btn" id="room-help">帮助</button>
+          </header>
+          <div class="room-subtitle">先确定玩法，再邀请朋友一起选点</div>
+
+          <div class="form-scroll room-create-scroll">
+            <section class="room-section">
+              <div class="form-title">出行类型</div>
+              <div class="trip-type-grid" id="trip-type-grid">
+                <button class="trip-type-card is-selected" data-trip-type="美食探店"><span>🍜</span><strong>美食探店</strong></button>
+                <button class="trip-type-card" data-trip-type="休闲娱乐"><span>🎮</span><strong>休闲娱乐</strong></button>
+                <button class="trip-type-card" data-trip-type="景区游玩"><span>🏞</span><strong>景区游玩</strong></button>
+              </div>
+              <label class="custom-line">
+                <span>自定义玩法</span>
+                <input id="trip-type-custom" placeholder="比如：生日聚会、citywalk" />
+              </label>
+            </section>
+
+            <section class="room-section">
+              <div class="form-title">出行时间</div>
+              <label class="select-row" data-open-sheet="time">
+                <input id="trip-time-input" value="周六 14:00 开始" />
+                <span>›</span>
+              </label>
+            </section>
+
+            <section class="room-section">
+              <div class="form-title">路线偏好</div>
+              <label class="select-row" data-open-sheet="route">
+                <input id="route-pref-input" value="少走路 · 高分优先" />
+                <span>›</span>
+              </label>
+            </section>
+
+            <section class="room-section">
+              <div class="form-title">成员权限</div>
+              <div class="setting-row">
+                <div>
+                  <strong>允许成员编辑路线</strong>
+                </div>
+                <button class="switch is-on" type="button" aria-label="允许成员编辑路线"></button>
+              </div>
+              <div class="setting-row">
+                <div>
+                  <strong>新成员加入需审核</strong>
+                </div>
+                <button class="switch" type="button" aria-label="新成员加入需审核"></button>
+              </div>
+            </section>
+          </div>
+
+          <button class="cta cta--fixed" id="save-room-settings">创建并邀请好友</button>
+          <div class="safe-area"></div>
+        </div>
+
+        <div class="screen screen-07 hidden" data-screen="07">
+          <header class="topbar topbar--solid">
+            <button class="icon-btn" id="back07" aria-label="返回">‹</button>
+            <h1>邀请好友</h1>
+            <button class="icon-btn" aria-label="关闭">×</button>
+          </header>
+
+          <section class="share-wrap">
+            <div class="share-card">
+              <div class="share-illustration">
+                <div class="ill-block ill-block--yellow"></div>
+                <div class="ill-block ill-block--green"></div>
+                <div class="ill-route"></div>
+                <span class="ill-badge ill-badge--food">♨</span>
+                <span class="ill-badge ill-badge--coffee">☕</span>
+                <span class="ill-badge ill-badge--pin">⌖</span>
+                <div class="share-code"><span>#</span> 房间码 8273</div>
+                <div class="share-wait">✧ 等你一起选点</div>
+              </div>
+
+              <div class="share-status">多人共创 · 待加入</div>
+              <h2>周末美食路线</h2>
+              <div class="share-chip-row">
+                <span>◷ 周六 14:00</span>
+                <span>♨ 美食</span>
+                <span>♙ 最多5人</span>
+              </div>
+              <div class="share-member-row">
+                <i></i><i></i><button class="invite-plus" id="add-invite-friend" type="button" aria-label="邀请好友">+</button>
+                <strong>2人已加入，等你补充偏好</strong>
+              </div>
+            </div>
+
+            <div class="route-highlight-card">
+              <div class="route-highlight-title">
+                <strong>路线亮点</strong>
+                <span>2 个待确认</span>
+              </div>
+              <div class="highlight-grid">
+                <div class="highlight-item highlight-item--food"><span>♨</span><strong>高分餐厅</strong></div>
+                <div class="highlight-item highlight-item--dessert"><span>☕</span><strong>饭后甜品</strong></div>
+              </div>
+            </div>
+
+            <div class="share-actions">
+              <button class="primary-btn share-primary" id="send-invite">⌘ 发送邀请</button>
+              <button class="secondary-btn share-secondary" id="copy-room-link">⌕ 复制链接</button>
+              <button class="link-btn" id="start-preferences">我先填写偏好</button>
+            </div>
+          </section>
+          <div class="safe-area"></div>
+        </div>
+
+        <div class="screen screen-08 hidden" data-screen="08">
+          <header class="topbar topbar--solid topbar--stack">
+            <button class="icon-btn" id="back08" aria-label="返回">‹</button>
+            <h1>填写我的偏好</h1>
+            <button class="icon-btn" aria-label="更多">⋯</button>
+            <p>大家填完后，AI 会生成兼顾多数人的路线</p>
+          </header>
+
+          <div class="form-scroll form-scroll--warm">
+            <section class="location-card">
+              <div class="form-title">我的位置</div>
+              <button class="location-choice" data-location="北京市西单大悦城"><span>⌖</span><strong>使用实时定位</strong><em>mock</em></button>
+              <label class="location-input">
+                <span>⌕</span>
+                <input id="location-input" placeholder="输入当前位置、小区、商圈或地铁站" />
+              </label>
+              <div class="location-suggestions">
+                <button data-location="北京市西单大悦城">西单大悦城</button>
+                <button data-location="北京市三里屯太古里">三里屯太古里</button>
+                <button data-location="北京市五道口地铁站">五道口地铁站</button>
+              </div>
+            </section>
+
+            <section class="form-block">
+              <div class="preference-title"><span>🍜</span><strong>想吃什么</strong></div>
+              <div class="chip-grid" id="food-chips"></div>
+              <label class="manual-input">
+                <span>＋ 手动输入</span>
+                <input id="food-input" placeholder="输入" />
+              </label>
+            </section>
+
+            <section class="form-block">
+              <div class="preference-title preference-title--green"><span>✕</span><strong>有什么忌口</strong></div>
+              <div class="chip-grid" id="avoid-chips"></div>
+              <label class="manual-input">
+                <span>＋ 手动输入</span>
+                <input id="avoid-input" placeholder="输入" />
+              </label>
+            </section>
+
+            <section class="form-block">
+              <div class="preference-title preference-title--blue"><span>🎮</span><strong>想玩什么</strong></div>
+              <div class="chip-grid" id="fun-chips"></div>
+              <label class="manual-input">
+                <span>＋ 手动输入</span>
+                <input id="fun-input" placeholder="输入" />
+              </label>
+            </section>
+
+            <button class="cta" id="submit-prefs">提交偏好</button>
+          </div>
+          <div class="safe-area"></div>
+        </div>
+
+        <div class="screen screen-09 hidden" data-screen="09">
+          <header class="topbar topbar--solid topbar--summary">
+            <button class="icon-btn" id="back09" aria-label="返回">‹</button>
+            <h1>周末美食探店</h1>
+            <button class="icon-btn" aria-label="分享">⌘</button>
+            <div class="summary-progress">
+              <span class="avatar-dot black"></span>
+              <span class="avatar-dot green"></span>
+              <span class="avatar-dot orange"></span>
+              <strong>3/5 人已提交偏好</strong>
+            </div>
+          </header>
+
+          <div class="summary-scroll">
+            <section class="summary-map-card">
+              <div class="summary-map-visual">
+                <span class="summary-pin summary-pin--home">X</span>
+                <span class="summary-pin summary-pin--food">Y</span>
+                <span class="summary-pin summary-pin--play">L</span>
+                <span class="summary-route-line"></span>
+              </div>
+            </section>
+
+            <section class="summary-card">
+              <h2>偏好共识标签</h2>
+              <div class="summary-strip">
+                <div class="summary-pill summary-pill--peach">火锅 3票</div>
+                <div class="summary-pill summary-pill--yellow">人均100</div>
+                <div class="summary-pill summary-pill--green">地铁直达</div>
+              </div>
+            </section>
+
+            <section class="summary-card">
+              <h2>成员状态</h2>
+              <div class="member-list" id="member-list">
+                <article class="member-card">
+                  <div class="avatar yellow">X</div>
+                  <div>
+                    <div class="member-name">Xinwei</div>
+                    <div class="member-meta">火锅 / 不太辣 / 100以内</div>
+                  </div>
+                  <div class="member-tag member-tag--done">已提交</div>
+                </article>
+                <article class="member-card">
+                  <div class="avatar green">Y</div>
+                  <div>
+                    <div class="member-name">Yuki</div>
+                    <div class="member-meta">粤菜 / 甜品 / 想拍照</div>
+                  </div>
+                  <div class="member-tag member-tag--done">已提交</div>
+                </article>
+                <article class="member-card">
+                  <div class="avatar blue">L</div>
+                  <div>
+                    <div class="member-name">Leo</div>
+                    <div class="member-meta">咖啡 / 少排队 / 近地铁</div>
+                  </div>
+                  <div class="member-tag member-tag--wait">待确认</div>
+                </article>
+              </div>
+            </section>
+
+            <button class="cta" id="build-route">✧ 生成 AI 路线</button>
+          </div>
+          <div class="safe-area"></div>
+        </div>
+
+        <div class="screen screen-10 hidden" data-screen="10">
+          <div class="ai-loading-map">
+            <button class="floating-back loading-back" id="back10" aria-label="返回">‹</button>
+            <section class="ai-loading-title-card">
+              <h1>正在生成 AI 路线</h1>
+              <p>综合 3 位成员位置、预算和口味偏好</p>
+            </section>
+            <div class="ai-loading-route"></div>
+            <section class="ai-loading-card">
+              <div class="ai-loading-icon">✧</div>
+              <h2>优先满足多数成员偏好</h2>
+              <p>过滤未营业、超预算点位，推荐评分 4.5+ 的顺路 POI。</p>
+              <div class="ai-loading-progress"><span></span></div>
+              <div class="loading-dots" id="loading-dots"></div>
+            </section>
+          </div>
+          <button class="cta visually-hidden" id="skip-loading">查看推荐结果</button>
+          <div class="safe-area"></div>
+        </div>
+
+        <div class="screen screen-11 hidden" data-screen="11">
+          <header class="topbar">
+            <button class="icon-btn" id="back11" aria-label="返回">‹</button>
+            <h1>AI 推荐方案</h1>
+            <button class="icon-btn" aria-label="更多">⋯</button>
+          </header>
+
+          <div class="stats-row">
+            <div class="stat-card stat-card--yellow">
+              <div class="stat-value" id="route-distance">3.6km</div>
+              <div class="stat-label">顺路最短</div>
+            </div>
+            <div class="stat-card stat-card--peach">
+              <div class="stat-value accent">4.7+</div>
+              <div class="stat-label">高分店</div>
+            </div>
+          </div>
+
+          <div class="map-shell">
+            <canvas id="map11" class="map-canvas" width="702" height="300"></canvas>
+          </div>
+
+          <div class="chip-row" id="filter-row"><button class="chip is-active">综合最优</button><button class="chip">美食</button><button class="chip">玩乐</button></div>
+          <div class="card-list" id="recommendation-list">
+            <article class="poi-card is-selected"><div class="poi-icon yellow">火锅</div><div><h3 class="poi-title">潮汕牛肉火锅 西单店</h3><div class="poi-meta">4.7分 · ¥96/人 · 距离480m</div><div class="poi-tags">不太辣 · 地铁直达 · 适合聚餐</div></div><div class="select-circle is-on">✓</div></article>
+            <article class="poi-card is-selected"><div class="poi-icon mint">咖啡</div><div><h3 class="poi-title">城市露台咖啡</h3><div class="poi-meta">4.8分 · ¥42/人 · 距离620m</div><div class="poi-tags">拍照 · 可聊天</div></div><div class="select-circle is-on">✓</div></article>
+            <article class="poi-card is-selected"><div class="poi-icon pink">甜品</div><div><h3 class="poi-title">漫糖甜品工坊</h3><div class="poi-meta">4.6分 · ¥38/人 · 距离760m</div><div class="poi-tags">少排队 · 适合拍照</div></div><div class="select-circle is-on">✓</div></article>
+          </div>
+
+          <button class="cta" id="next-step">下一步：调整行程</button>
+          <div class="safe-area"></div>
+        </div>
+
+        <div class="screen screen-12 hidden" data-screen="12">
+          <header class="topbar topbar--route">
+            <button class="icon-btn" id="back12" aria-label="返回">‹</button>
+            <h1>调整并确认行程</h1>
+            <span class="owner-tag">房主</span>
+          </header>
+
+          <div class="search-panel">
+            <div class="search-bar">
+              <span class="search-icon">⌕</span>
+              <input id="poi-search" type="search" placeholder="搜索并添加 POI" autocomplete="off" />
+            </div>
+            <div class="search-results hidden" id="search-results"></div>
+          </div>
+
+          <div class="map-shell">
+            <canvas id="map12" class="map-canvas" width="702" height="300"></canvas>
+          </div>
+
+          <div class="tip-bar">
+            <span>⤧</span>
+            <span>长按拖拽调整顺序，点卡片替换店铺</span>
+          </div>
+
+          <div class="route-list" id="route-list"></div>
+
+          <div class="bottom-actions">
+            <button class="secondary-btn" id="add-more">继续添加</button>
+            <button class="primary-btn" id="confirm-route">确认行程</button>
+          </div>
+          <div class="safe-area"></div>
+        </div>
+      </section>
+
+      <div class="option-sheet hidden" id="option-sheet">
+        <div class="option-panel">
+          <div class="modal-handle"></div>
+          <h3 id="option-sheet-title">选择</h3>
+          <div class="option-list" id="option-list"></div>
+        </div>
+      </div>
+      <div class="toast" id="toast"></div>
+    </main>
+
+    <script>
+      window.MTVibeGo = function (screen) {
+        document.querySelectorAll('.screen').forEach(function (node) {
+          node.classList.toggle('hidden', node.dataset.screen !== screen);
+        });
+      };
+      document.addEventListener('click', function (event) {
+        var button = event.target.closest('button');
+        var opener = event.target.closest('[data-open-sheet]');
+        if (opener) {
+          var sheet = document.getElementById('option-sheet');
+          var title = document.getElementById('option-sheet-title');
+          var list = document.getElementById('option-list');
+          var type = opener.dataset.openSheet;
+          var input = document.getElementById(type === 'time' ? 'trip-time-input' : 'route-pref-input');
+          title.textContent = type === 'time' ? '选择出行时间' : '选择路线偏好';
+          list.className = type === 'time' ? 'option-list option-list--picker' : 'option-list option-list--route';
+          if (type === 'time') {
+            list.innerHTML = '<label class="calendar-field"><span>日期</span><input id="trip-date-picker-inline" type="date"></label><label class="calendar-field"><span>时间</span><input id="trip-clock-picker-inline" type="time" value="14:00"></label><button class="option-confirm" id="trip-time-confirm-inline">确认出行时间</button>';
+            list.querySelector('#trip-time-confirm-inline').addEventListener('click', function () {
+              var dateValue = list.querySelector('#trip-date-picker-inline').value;
+              var timeValue = list.querySelector('#trip-clock-picker-inline').value || '14:00';
+              if (input) input.value = (dateValue ? dateValue + ' ' : '') + timeValue + ' 开始';
+              sheet.classList.add('hidden');
+            });
+            sheet.classList.remove('hidden');
+            return;
+          }
+          list.innerHTML = ['少走路 · 高分优先', '地铁直达 · 少排队', '预算友好 · 拍照出片'].map(function (value) {
+            return '<button class="option-item" data-option-value="' + value + '">' + value + '</button>';
+          }).join('') + '<label class="custom-option"><span>自定义</span><input id="route-custom-input-inline" placeholder="比如：先吃饭再玩"></label><button class="option-confirm" id="route-custom-confirm-inline">确认路线偏好</button>';
+          sheet.classList.remove('hidden');
+          list.querySelectorAll('[data-option-value]').forEach(function (item) {
+            item.addEventListener('click', function () {
+              if (input) input.value = item.dataset.optionValue;
+              sheet.classList.add('hidden');
+            });
+          });
+          list.querySelector('#route-custom-confirm-inline').addEventListener('click', function () {
+            var custom = list.querySelector('#route-custom-input-inline').value.trim();
+            if (!custom) return;
+            if (input) input.value = custom;
+            sheet.classList.add('hidden');
+          });
+          return;
+        }
+        if (!button) return;
+        if (button.matches('[data-trip-type]')) {
+          return;
+        }
+        if (button.classList.contains('switch')) {
+          button.classList.toggle('is-on');
+          return;
+        }
+        if (button.id === 'join-room') {
+          var codeInput = document.getElementById('room-code-input');
+          if (!codeInput || !/^\d{4}$/.test(codeInput.value.trim())) {
+            codeInput && codeInput.focus();
+            alert('请输入 4 位房间码');
+            return;
+          }
+        }
+        if (button.id === 'copy-room-link') {
+          navigator.clipboard && navigator.clipboard.writeText('https://meituan.example/route-room/8273');
+          alert('邀请链接已复制');
+          return;
+        }
+        if (button.id === 'send-invite') {
+          alert('已生成邀请图片卡片（mock）');
+          return;
+        }
+        if (button.dataset.location) {
+          var locationInput = document.getElementById('location-input');
+          if (locationInput) locationInput.value = button.dataset.location;
+          document.querySelectorAll('[data-location]').forEach(function (item) {
+            item.classList.toggle('is-picked', item === button);
+          });
+          window.MTVibeToast && window.MTVibeToast('已填入我的位置');
+          return;
+        }
+        var routes = {
+          'open-room-modal': '05',
+          'quick-join-room': '05',
+          'create-room': '06',
+          'join-room': '08',
+          'save-room-settings': '07',
+          'start-preferences': '08',
+          'submit-prefs': '09',
+          'build-route': '10',
+          'skip-loading': '11',
+          'next-step': '12',
+          back05: '04',
+          back06: '05',
+          back07: '06',
+          back08: '07',
+          back09: '08',
+          back10: '09',
+          back11: '10',
+          back12: '11'
+        };
+        if (!routes[button.id]) return;
+        window.MTVibeGo(routes[button.id]);
+        if (button.id === 'build-route') {
+          setTimeout(function () { window.MTVibeGo('11'); }, 1400);
+        }
+      }, true);
+    </script>
+    <script>
+      window.MTVibeToast = function (message) {
+        var toast = document.getElementById('toast');
+        if (!toast) return;
+        toast.textContent = message;
+        toast.classList.add('show');
+        clearTimeout(window.MTVibeToastTimer);
+        window.MTVibeToastTimer = setTimeout(function () { toast.classList.remove('show'); }, 1500);
+      };
+    </script>
+    <script src="./mock-api.js?v=20260523-22"></script>
+    <script src="./app.js?v=20260523-22"></script>
+  </body>
+</html>
