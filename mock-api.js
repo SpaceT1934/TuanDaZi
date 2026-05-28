@@ -81,11 +81,7 @@ async function planRoute({ origin = DEFAULT_CENTER, selectedIds = [], prefs = {}
   const scored = pool.map((poi) => scorePoi(poi, origin, prefs));
   const ordered = respectOrder
     ? scored
-    : scored.sort((a, b) => {
-        const distanceDiff = distanceMeters(origin, a) - distanceMeters(origin, b);
-        if (Math.abs(distanceDiff) > 80) return distanceDiff;
-        return b.score - a.score;
-      });
+    : orderByShortestWalk(origin, scored);
   const legs = [];
   let prev = origin;
   for (const poi of ordered) {
@@ -99,7 +95,7 @@ async function planRoute({ origin = DEFAULT_CENTER, selectedIds = [], prefs = {}
     });
     prev = poi;
   }
-  const totalMeters = ordered.reduce((sum, poi) => sum + distanceMeters(origin, poi), 0);
+  const totalMeters = legs.reduce((sum, leg) => sum + leg.distanceMeters, 0);
   return {
     origin,
     selected: ordered,
@@ -108,6 +104,23 @@ async function planRoute({ origin = DEFAULT_CENTER, selectedIds = [], prefs = {}
     totalDistanceLabel: formatDistance(totalMeters),
     aiReason: '已结合当前位置、评分、品类偏好和晚间时间段，优先安排近距离高分店，再按步行成本做了局部排序。',
   };
+}
+
+function orderByShortestWalk(origin, points) {
+  const remaining = points.slice();
+  const ordered = [];
+  let cursor = origin;
+  while (remaining.length) {
+    remaining.sort((a, b) => {
+      const distanceDiff = distanceMeters(cursor, a) - distanceMeters(cursor, b);
+      if (Math.abs(distanceDiff) > 80) return distanceDiff;
+      return b.score - a.score;
+    });
+    const next = remaining.shift();
+    ordered.push(next);
+    cursor = next;
+  }
+  return ordered;
 }
 
 function getPoiById(id) {

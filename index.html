@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>美团黑客松路线 MVP</title>
-    <link rel="stylesheet" href="./styles.css?v=20260523-22" />
+    <link rel="stylesheet" href="./styles.css?v=20260528-2" />
   </head>
   <body>
     <main class="app-shell">
@@ -34,6 +34,13 @@
               <span>雯</span>
               <span>杰</span>
               <span>+</span>
+            </div>
+            <div class="home-history">
+              <div class="home-history-title">
+                <strong>历史行程</strong>
+                <button class="history-see-all hidden" id="home-history-see-all" type="button">See all</button>
+              </div>
+              <div class="home-history-list" id="home-history-list"></div>
             </div>
             <button class="cta" id="open-room-modal">发起多人共创</button>
             <button class="link-btn" id="quick-join-room">输入房间码加入</button>
@@ -377,7 +384,208 @@
           </div>
           <div class="safe-area"></div>
         </div>
+
+        <div class="screen screen-13 hidden" data-screen="13">
+          <header class="trip-head">
+            <button class="trip-back" id="back13" aria-label="返回">‹</button>
+            <h1>实时行程卡</h1>
+          </header>
+
+          <div class="trip-body">
+            <section class="live-map" aria-label="行程地图">
+              <div class="map-road map-road--main"></div>
+              <div class="map-road map-road--side"></div>
+              <svg class="route-line" viewBox="0 0 340 150" aria-hidden="true">
+                <polyline points="40,130 65,117 187,91 289,72 310,134"></polyline>
+              </svg>
+              <span class="map-pin map-pin--me">我</span>
+              <span class="map-pin map-pin--one" data-live-pin="1">1</span>
+              <span class="map-pin map-pin--two" data-live-pin="2">2</span>
+              <span class="map-pin map-pin--three" data-live-pin="3">3</span>
+              <span class="map-pin map-pin--four" data-live-pin="4">4</span>
+              <div class="map-bullet" id="trip-barrage">Leo：我快到了</div>
+            </section>
+
+            <div class="trip-tip live-trip-tip"><span>⌖</span>4 个点位已串联，右侧导航从当前位置直达该店铺</div>
+
+            <div class="itinerary-list" id="itinerary-list"></div>
+
+            <nav class="trip-tabs">
+              <button class="trip-tab" id="open-comment-panel" type="button"><span>◎</span>评论</button>
+              <button class="trip-tab" id="open-album" type="button"><span>▧</span>共享相册</button>
+              <button class="trip-tab trip-tab--primary" id="end-trip" type="button"><span>⚑</span>结束</button>
+            </nav>
+          </div>
+          <div class="safe-area"></div>
+        </div>
+
+        <div class="screen screen-14 hidden" data-screen="14">
+          <header class="trip-head">
+            <button class="trip-back" id="back14" aria-label="返回行程卡">‹</button>
+            <h1>共享相册</h1>
+            <span class="photo-count" id="album-count">18张</span>
+          </header>
+
+          <div class="album-body">
+            <section class="album-upload-card">
+              <div class="album-upload-head">
+                <div class="upload-mark">☁</div>
+                <div>
+                  <h2>上传到共享相册</h2>
+                  <p>返回后继续查看实时行程卡</p>
+                </div>
+              </div>
+              <div class="album-source-grid">
+                <button class="album-source" id="album-pick-card" type="button">
+                  <span>▧</span>
+                  <strong>从相册选择</strong>
+                  <em>支持多选</em>
+                </button>
+                <button class="album-source album-source--camera" id="album-camera-card" type="button">
+                  <span>⌾</span>
+                  <strong>拍照上传</strong>
+                  <em>现场实时</em>
+                </button>
+              </div>
+            </section>
+
+            <div class="album-live-status"><span>◉</span>图片直播中 · 3 位成员正在同步照片</div>
+
+            <div class="album-title-row">
+              <h2>图片直播</h2>
+              <span>按上传时间更新</span>
+            </div>
+
+            <div class="photo-grid" id="photo-grid"></div>
+
+            <div class="album-hint"><span>◷</span>新照片上传后会自动插到顶部，并同步给所有成员</div>
+
+            <nav class="album-actions">
+              <button class="trip-tab" id="album-pick-bottom" type="button"><span>▧</span>选择相片</button>
+              <button class="trip-tab trip-tab--primary" id="album-camera-bottom" type="button"><span>⌾</span>拍照上传</button>
+            </nav>
+          </div>
+          <input class="visually-hidden" id="album-file-input" type="file" accept="image/*" multiple />
+          <input class="visually-hidden" id="album-camera-input" type="file" accept="image/*" capture="environment" />
+          <div class="safe-area"></div>
+        </div>
+
+        <div class="screen screen-15 hidden" data-screen="15">
+          <header class="trip-head">
+            <button class="trip-back" id="back15" aria-label="返回行程卡">‹</button>
+            <h1>实时行程卡</h1>
+          </header>
+
+          <div class="trip-body trip-body--dimmed">
+            <section class="live-map" aria-hidden="true">
+              <div class="map-road map-road--main"></div>
+              <div class="map-road map-road--side"></div>
+              <svg class="route-line" viewBox="0 0 340 150" aria-hidden="true">
+                <polyline points="40,130 65,117 187,91 289,72 310,134"></polyline>
+              </svg>
+              <span class="map-pin map-pin--me">我</span>
+              <span class="map-pin map-pin--one" data-live-pin="1">1</span>
+              <span class="map-pin map-pin--two" data-live-pin="2">2</span>
+              <span class="map-pin map-pin--three" data-live-pin="3">3</span>
+              <span class="map-pin map-pin--four" data-live-pin="4">4</span>
+              <div class="map-bullet" id="trip-barrage-preview">Leo：我快到了</div>
+            </section>
+            <div class="trip-tip live-trip-tip"><span>⌖</span>4 个点位已串联，右侧导航从当前位置直达该店铺</div>
+            <div class="itinerary-list itinerary-list--peek" id="comment-preview-list"></div>
+          </div>
+
+          <section class="comment-sheet">
+            <div class="sheet-handle"></div>
+            <h2>发表评论</h2>
+            <div class="comment-targets" id="comment-targets">
+              <button class="comment-target is-active" data-comment-target="trip" type="button"><span>◎</span>行程弹幕</button>
+              <button class="comment-target" data-comment-target="hotpot" type="button"><span>⌂</span>火锅店</button>
+              <button class="comment-target" data-comment-target="coffee" type="button"><span>⌂</span>咖啡店</button>
+              <button class="comment-target" data-comment-target="dessert" type="button"><span>⌂</span>甜品店</button>
+            </div>
+            <label class="comment-input-wrap">
+              <textarea id="comment-input" rows="3" placeholder="写一句评论，选择店铺会进入商户评论；不选店铺则发到行程弹幕">今天这条路线很顺，第二站拍照超出片！</textarea>
+              <span>选择店铺后，评论会进入对应商户评论区</span>
+            </label>
+            <div class="comment-destination" id="comment-destination"><span>↪</span>当前发布到：行程弹幕，会在地图上滚动展示</div>
+            <button class="comment-submit" id="publish-comment" type="button">➤ 发布评论</button>
+          </section>
+        </div>
+
+        <div class="screen screen-18 hidden" data-screen="18">
+          <header class="trip-head">
+            <button class="trip-back" id="back18" aria-label="返回首页">‹</button>
+            <h1>AI 手帐笔记</h1>
+          </header>
+
+          <div class="notebook-body">
+            <article class="notebook-card" id="notebook-card">
+              <div class="notebook-cover">
+                <span>美团 Vibe</span>
+                <h2 class="notebook-title">周末美食探店 AI 手帐</h2>
+                <p class="notebook-subtitle">今天 20:48 · 火锅 → 咖啡 → 甜品</p>
+              </div>
+              <section class="notebook-section">
+                <h3>路线回顾</h3>
+                <div class="notebook-route-list" id="notebook-route-list"></div>
+              </section>
+              <section class="notebook-section">
+                <h3>精选照片 / 视频</h3>
+                <div class="notebook-media-grid" id="notebook-media-grid"></div>
+              </section>
+              <section class="notebook-section">
+                <h3>评论摘录</h3>
+                <div class="notebook-comments" id="notebook-comments"></div>
+              </section>
+            </article>
+
+            <nav class="notebook-actions">
+              <button class="trip-tab" id="notebook-home" type="button"><span>⌂</span>首页</button>
+              <button class="trip-tab" id="share-notebook" type="button"><span>↗</span>分享</button>
+              <button class="trip-tab trip-tab--primary" id="save-notebook" type="button"><span>⇩</span>保存图片</button>
+            </nav>
+          </div>
+          <div class="safe-area"></div>
+        </div>
+
+        <div class="screen screen-19 hidden" data-screen="19">
+          <div class="media-viewer">
+            <button class="media-close" id="close-media" type="button" aria-label="关闭">×</button>
+            <div class="media-viewer-content" id="media-viewer-content">照片预览</div>
+            <div class="media-caption">
+              <strong id="media-title">共享相册照片</strong>
+              <span id="media-meta">我 · 刚刚 · 0 赞</span>
+            </div>
+            <button class="media-step media-step--prev" id="media-prev" type="button" aria-label="上一张">‹</button>
+            <button class="media-step media-step--next" id="media-next" type="button" aria-label="下一张">›</button>
+          </div>
+        </div>
       </section>
+
+      <div class="end-trip-dialog hidden" id="end-trip-dialog">
+        <section class="end-dialog-panel">
+          <div class="modal-handle"></div>
+          <div class="end-dialog-title">
+            <h2>结束行程</h2>
+            <p>先选择结束方式，再点击确认。</p>
+          </div>
+          <div class="end-stats" id="end-trip-stats"></div>
+          <div class="end-choice-card">
+            <button class="end-choice end-choice--primary is-selected" id="generate-notebook" type="button">
+              <span>▧</span>
+              <strong>生成电子手帐</strong>
+              <em>照片和视频仍可点击查看</em>
+            </button>
+            <button class="end-choice" id="skip-notebook" type="button">
+              <span>⌁</span>
+              <strong>直接结束</strong>
+              <em>只保存这一条历史行程</em>
+            </button>
+          </div>
+          <button class="end-dialog-confirm" id="confirm-end-trip" type="button">确认生成电子手帐</button>
+          <button class="end-dialog-cancel" id="cancel-end-trip" type="button">先不结束</button>
+        </section>
+      </div>
 
       <div class="option-sheet hidden" id="option-sheet">
         <div class="option-panel">
@@ -480,6 +688,8 @@
           'build-route': '10',
           'skip-loading': '11',
           'next-step': '12',
+          'open-album': '14',
+          'open-comment-panel': '15',
           back05: '04',
           back06: '05',
           back07: '06',
@@ -487,7 +697,10 @@
           back09: '08',
           back10: '09',
           back11: '10',
-          back12: '11'
+          back12: '11',
+          back13: '12',
+          back14: '13',
+          back15: '13'
         };
         if (!routes[button.id]) return;
         window.MTVibeGo(routes[button.id]);
@@ -506,7 +719,7 @@
         window.MTVibeToastTimer = setTimeout(function () { toast.classList.remove('show'); }, 1500);
       };
     </script>
-    <script src="./mock-api.js?v=20260523-22"></script>
-    <script src="./app.js?v=20260523-22"></script>
+    <script src="./mock-api.js?v=20260528-2"></script>
+    <script src="./app.js?v=20260528-2"></script>
   </body>
 </html>
