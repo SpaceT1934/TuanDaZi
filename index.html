@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>美团黑客松路线 MVP</title>
-    <link rel="stylesheet" href="./styles.css?v=20260528-2" />
+    <link rel="stylesheet" href="./src/styles.css?v=20260528-2" />
   </head>
   <body>
     <main class="app-shell">
@@ -28,7 +28,7 @@
           <section class="entry-panel">
             <div class="eyebrow">多人共创路线</div>
             <h2>一起决定去哪吃、去哪玩</h2>
-            <p>把朋友拉进同一个房间，收集位置和偏好后，AI 会自动串联顺路的店铺。</p>
+            <p>把朋友拉进同一个房间，收集位置和偏好后，自动串联顺路的店铺。</p>
             <div class="friend-row">
               <span>林</span>
               <span>雯</span>
@@ -54,7 +54,7 @@
             <section class="room-modal room-modal--sheet">
               <div class="modal-handle"></div>
               <h2>多人共创行程</h2>
-              <p>邀请好友一起填位置和偏好，AI 生成更顺路的美食/游玩路线。</p>
+              <p>邀请好友一起填位置和偏好，生成更顺路的美食/游玩路线。</p>
               <button class="room-action room-action--primary" id="create-room"><span class="plus-dot">+</span>创建新房间</button>
               <div class="room-code-row">
                 <span>#</span>
@@ -182,7 +182,7 @@
             <button class="icon-btn" id="back08" aria-label="返回">‹</button>
             <h1>填写我的偏好</h1>
             <button class="icon-btn" aria-label="更多">⋯</button>
-            <p>大家填完后，AI 会生成兼顾多数人的路线</p>
+            <p>大家填完后，会生成兼顾多数人的路线</p>
           </header>
 
           <div class="form-scroll form-scroll--warm">
@@ -294,24 +294,24 @@
               </div>
             </section>
 
-            <button class="cta" id="build-route">✧ 生成 AI 路线</button>
+            <button class="cta" id="build-route">✧ 生成路线</button>
           </div>
           <div class="safe-area"></div>
         </div>
 
         <div class="screen screen-10 hidden" data-screen="10">
-          <div class="ai-loading-map">
+          <div class="route-loading-map">
             <button class="floating-back loading-back" id="back10" aria-label="返回">‹</button>
-            <section class="ai-loading-title-card">
-              <h1>正在生成 AI 路线</h1>
+            <section class="route-loading-title-card">
+              <h1>正在生成路线</h1>
               <p>综合 3 位成员位置、预算和口味偏好</p>
             </section>
-            <div class="ai-loading-route"></div>
-            <section class="ai-loading-card">
-              <div class="ai-loading-icon">✧</div>
+            <div class="route-loading-route"></div>
+            <section class="route-loading-card">
+              <div class="route-loading-icon">✧</div>
               <h2>优先满足多数成员偏好</h2>
               <p>过滤未营业、超预算点位，推荐评分 4.5+ 的顺路 POI。</p>
-              <div class="ai-loading-progress"><span></span></div>
+              <div class="route-loading-progress"><span></span></div>
               <div class="loading-dots" id="loading-dots"></div>
             </section>
           </div>
@@ -322,7 +322,7 @@
         <div class="screen screen-11 hidden" data-screen="11">
           <header class="topbar">
             <button class="icon-btn" id="back11" aria-label="返回">‹</button>
-            <h1>AI 推荐方案</h1>
+            <h1>推荐方案</h1>
             <button class="icon-btn" aria-label="更多">⋯</button>
           </header>
 
@@ -515,14 +515,14 @@
         <div class="screen screen-18 hidden" data-screen="18">
           <header class="trip-head">
             <button class="trip-back" id="back18" aria-label="返回首页">‹</button>
-            <h1>AI 手帐笔记</h1>
+            <h1>电子手帐笔记</h1>
           </header>
 
           <div class="notebook-body">
             <article class="notebook-card" id="notebook-card">
               <div class="notebook-cover">
-                <span>美团 Vibe</span>
-                <h2 class="notebook-title">周末美食探店 AI 手帐</h2>
+                <span>美团路线</span>
+                <h2 class="notebook-title">周末美食探店手帐</h2>
                 <p class="notebook-subtitle">今天 20:48 · 火锅 → 咖啡 → 甜品</p>
               </div>
               <section class="notebook-section">
@@ -719,7 +719,7 @@
         window.MTVibeToastTimer = setTimeout(function () { toast.classList.remove('show'); }, 1500);
       };
     </script>
-    <script src="./mock-api.js?v=20260528-2"></script>
-    <script src="./app.js?v=20260528-2"></script>
+    <script src="./src/mock-api.js?v=20260528-2"></script>
+    <script src="./src/app.js?v=20260528-2"></script>
   </body>
 </html>

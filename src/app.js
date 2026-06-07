@@ -954,7 +954,7 @@ function confirmEndTrip() {
     state.showEndDialog = false;
     state.screen = '18';
     render();
-    showToast('AI 手帐已生成');
+    showToast('电子手帐已生成');
     return;
   }
   finishTrip({ notebookGenerated: false });
@@ -991,7 +991,7 @@ function generateNotebookFromTrip() {
   const routeTitle = stops.map((stop) => getShortStopName(stop.name)).join(' → ') || '周末美食路线';
   state.notebook = {
     id: `notebook-${Date.now()}`,
-    title: '周末美食探店 AI 手帐',
+    title: '周末美食探店手帐',
     date: '今天 20:48',
     routeTitle,
     stops,
@@ -1024,7 +1024,7 @@ function finishTrip({ notebookGenerated }) {
 function renderNotebook() {
   if (!el.notebookCard) return;
   if (!state.notebook) {
-    el.notebookCard.innerHTML = '<div class="notebook-empty">结束行程后可生成 AI 手帐</div>';
+    el.notebookCard.innerHTML = '<div class="notebook-empty">结束行程后可生成电子手帐</div>';
     return;
   }
   const notebook = state.notebook;
@@ -1158,7 +1158,7 @@ async function shareNotebook() {
   const dataUrl = createNotebookShareImage();
   try {
     const blob = await (await fetch(dataUrl)).blob();
-    const file = new File([blob], 'meituan-ai-notebook.png', { type: 'image/png' });
+    const file = new File([blob], 'meituan-notebook.png', { type: 'image/png' });
     if (navigator.canShare?.({ files: [file] }) && navigator.share) {
       await navigator.share({ files: [file], title: '我的美团电子手帐' });
       return;
@@ -1166,13 +1166,13 @@ async function shareNotebook() {
   } catch (error) {
     console.warn('分享图片失败，已降级为下载', error);
   }
-  downloadDataUrl(dataUrl, 'meituan-ai-notebook.png');
+  downloadDataUrl(dataUrl, 'meituan-notebook.png');
   showToast('已生成手帐图片，可保存后分享');
 }
 
 function saveNotebookImage() {
   if (!state.notebook) return;
-  downloadDataUrl(createNotebookShareImage(), 'meituan-ai-notebook.png');
+  downloadDataUrl(createNotebookShareImage(), 'meituan-notebook.png');
   showToast('已保存手帐图片');
 }
 
@@ -1430,7 +1430,7 @@ async function finishLoadingSequence() {
     state.previewSelectedIds = [];
     state.routePlan = { selected: [], totalDistanceLabel: '待选' };
   } catch (error) {
-    console.error('生成 AI 路线失败，已使用兜底推荐', error);
+    console.error('生成路线失败，已使用兜底推荐', error);
     state.previewIds = getAllPois().slice(0, 3).map((poi) => poi.id);
     state.previewSelectedIds = [];
     state.routePlan = { selected: [], totalDistanceLabel: '待选' };

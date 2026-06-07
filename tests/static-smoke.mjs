@@ -3,7 +3,7 @@ import { resolve } from 'node:path';
 
 const root = resolve(import.meta.dirname, '..');
 const html = readFileSync(resolve(root, 'index.html'), 'utf8');
-const app = readFileSync(resolve(root, 'app.js'), 'utf8');
+const app = readFileSync(resolve(root, 'src/app.js'), 'utf8');
 
 const requiredHtml = [
   'class="screen screen-18',
@@ -42,7 +42,7 @@ for (const needle of requiredFunctions) {
 }
 
 if (!app.includes('manualRouteOrder')) {
-  throw new Error('Route ordering should distinguish AI optimized order from manual edits');
+  throw new Error('Route ordering should distinguish optimized order from manual edits');
 }
 
 if (html.includes('history-panel--notebook') || html.includes('id="notebook-history-list"')) {

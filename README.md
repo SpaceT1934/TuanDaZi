@@ -1,61 +1,106 @@
-# Meituan Vibe MVP
+# Meituan Route MVP
 
-美团黑客松多人共创路线 MVP。当前版本是一个可直接预览的静态前端原型，已经把从地图入口、创建房间、邀请好友、填写偏好、成员偏好汇总、AI 路线生成、AI 推荐方案到调整确认行程的主流程串起来。
+美团黑客松多人共创路线 MVP。项目围绕多人出行决策场景，串联创建房间、邀请好友、填写偏好、生成路线、确认行程和沉淀手帐的完整体验。
+
+## Overview
+
+- 面向移动端的多人共创路线原型
+- 覆盖从创建房间、邀请好友、填写偏好到路线生成和行程手帐的完整体验
+- 可通过本地静态服务直接预览和演示
+
+## Directory Structure
+
+```text
+.
+├── index.html
+├── src/
+│   ├── app.js
+│   ├── mock-api.js
+│   └── styles.css
+├── tests/
+│   ├── browser-smoke.mjs
+│   ├── route-plan.mjs
+│   └── static-smoke.mjs
+└── README.md
+```
 
 ## Preview
 
-推荐用本地静态服务预览：
+在项目根目录启动本地静态服务：
 
 ```bash
 python3 -m http.server 4180
 ```
 
-然后打开：
+然后在浏览器打开：
 
 ```text
 http://localhost:4180/index.html
 ```
 
-也可以直接打开 `index.html`，但后续接真实地图 API 时建议固定使用本地服务。
+也可以直接打开 `index.html`，但使用本地服务预览更接近实际浏览器运行环境。
 
 ## Files
 
-- `index.html`: 页面结构和 04-12 屏流程骨架。
-- `styles.css`: 全部视觉样式，按页面和模块组织。
-- `app.js`: 前端状态、页面跳转、筛选、选择 POI、调整行程、canvas 地图适配器。
-- `mock-api.js`: 当前 mock 的成员、POI、搜索、路线规划接口。
+- `index.html`: 页面结构、弹窗和移动端原型屏幕。
+- `src/styles.css`: 全部视觉样式，按页面和模块组织。
+- `src/app.js`: 前端状态管理、页面跳转、筛选、选点、路线调整、电子手帐和地图 canvas 适配器。
+- `src/mock-api.js`: mock 成员、POI、搜索、定位上下文和路线规划接口。
+- `tests/`: 静态检查、路线规划检查和浏览器冒烟测试。
 
 ## Current Flow
 
-- 04 地图入口-多人共创
-- 05 创建或加入房间弹窗
-- 06 创建房间设置
-- 07 邀请好友分享卡
-- 08 位置与偏好填写
-- 09 成员偏好汇总
-- 10 AI 路线生成中
-- 11 AI 路线与 POI 推荐
-- 12 调整并确认行程
+- 地图入口与多人共创入口
+- 创建或加入行程房间
+- 设置行程类型、时间、路线偏好和成员权限
+- 邀请好友分享
+- 填写位置与偏好
+- 汇总成员偏好
+- 生成路线与推荐 POI
+- 调整并确认行程
+- 行程进行中互动
+- 结束行程并生成电子手帐
+- 查看历史行程和手帐媒体
 
-## Integration Notes
+## Implementation Notes
 
-后端或 AI 同学优先看这几个点：
+项目中的数据和地图能力集中在以下边界，便于阅读和维护：
 
-- `mock-api.js` 里的 `window.MockMeituanApi` 是未来替换真实 API 的边界。
-- `app.js` 里的 `createMapAdapter(...)` 是地图渲染边界，目前是 canvas fallback。
-- `buildRoutePlan(...)` 目前调用 mock route planner，之后可以替换为真实 AI 路线规划接口。
-- `searchPois(...)` 目前返回 mock POI，之后可以接高德/美团/后端聚合 POI 搜索。
-- `getCurrentLocation(...)` 目前 mock 定位，之后可以接浏览器定位或地图 SDK 定位。
+- `src/mock-api.js` 中的 `window.MockApi`: 当前 mock 接口集合。
+- `getUserContext(...)`: 定位上下文来源。
+- `getPoiRecommendations(...)`: 推荐 POI 来源。
+- `searchPois(...)`: 搜索 POI 来源。
+- `planRoute(...)`: 路线规划来源。
+- `src/app.js` 中的 `createMapAdapter(...)`: canvas 地图渲染边界。
 
-建议真实接口先保持这些返回字段：
+核心数据字段：
 
-- POI: `id`, `name`, `type`, `lat`, `lng`, `rating`, `price`, `distance`, `tags`, `imageLabel`
-- Route plan: `selected`, `totalDistanceLabel`, `reason`
-- Member: `name`, `avatar`, `location`, `preferences`, `status`
+- POI: `id`, `name`, `category`, `subCategory`, `lat`, `lng`, `rating`, `price`, `tags`
+- Route plan: `origin`, `selected`, `legs`, `totalDistanceMeters`, `totalDistanceLabel`, `reason`
+- Member: `name`, `avatar`, `status`, `tags`
 
-## Next Steps
+## Tests
 
-- 接入真实地图 SDK，替换 canvas 地图。
-- 接入 POI 搜索和地图选点。
-- 接入 AI 路线规划，基于成员位置、偏好、预算、营业状态和交通距离返回推荐路线。
-- 将 mock 房间码、成员加入状态、邀请链接替换为后端房间接口。
+运行静态冒烟检查：
+
+```bash
+node tests/static-smoke.mjs
+```
+
+运行路线规划检查：
+
+```bash
+node tests/route-plan.mjs
+```
+
+浏览器冒烟脚本：
+
+```bash
+node tests/browser-smoke.mjs
+```
+
+注意：`tests/browser-smoke.mjs` 依赖本机 Playwright 运行环境。如果本机依赖路径不可用，需要先修正脚本里的 Playwright 引用或安装对应依赖。
+
+## Status
+
+项目已完成静态 MVP 原型交付，可通过本地静态服务预览完整流程。

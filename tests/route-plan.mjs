@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 
 globalThis.window = {};
-eval(readFileSync(new URL('../mock-api.js', import.meta.url), 'utf8'));
+eval(readFileSync(new URL('../src/mock-api.js', import.meta.url), 'utf8'));
 
 const selectedIds = ['hotpot', 'japanese', 'sichuan'];
 const optimized = await window.MockApi.planRoute({ selectedIds, respectOrder: false });

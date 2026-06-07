@@ -102,7 +102,7 @@ async function planRoute({ origin = DEFAULT_CENTER, selectedIds = [], prefs = {}
     legs,
     totalDistanceMeters: totalMeters,
     totalDistanceLabel: formatDistance(totalMeters),
-    aiReason: '已结合当前位置、评分、品类偏好和晚间时间段，优先安排近距离高分店，再按步行成本做了局部排序。',
+    reason: '已结合当前位置、评分、品类偏好和晚间时间段，优先安排近距离高分店，再按步行成本做了局部排序。',
   };
 }
 
